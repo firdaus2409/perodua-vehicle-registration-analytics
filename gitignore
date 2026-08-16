@@ -1,0 +1,15 @@
+# Raw downloaded data — large, regenerable by re-running etl_load.py, not needed in the repo
+data_cache/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local secrets — if you switch etl_load.py to read the MySQL password from a .env file
+.env
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
