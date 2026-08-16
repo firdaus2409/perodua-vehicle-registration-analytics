@@ -22,13 +22,13 @@ from pathlib import Path
 
 import pandas as pd
 
-# ---- config: edit these ----
+# config: edit these
 
 MYSQL = {
     "host": "localhost",
     "port": 3306,
     "user": "root",
-    "password": "password",   # change before running for real
+    "password": "Change_Me",   # change before pushing to Github
     "database": "carmart_dw",
 }
 
@@ -38,12 +38,12 @@ AGGREGATE = True          # False = raw transaction grain, way more rows
 CACHE_DIR = Path("./data_cache")
 BASE_URL = "https://storage.data.gov.my/transportation/cars_{year}.{ext}"
 
-# ---- extract ----
+# extract
 
 EXPECTED_COLS = ["date_reg", "type", "maker", "model", "colour", "fuel", "state"]
 
 
-# make sure the column names match what the rest of the script expects
+# makes sure the column names match what the rest of the script expects
 def normalise_columns(df: pd.DataFrame) -> pd.DataFrame:
     """Portal has used both 'date_reg' and 'date' as the column name over the years."""
     df.columns = [c.strip().lower() for c in df.columns]
@@ -60,7 +60,7 @@ def normalise_columns(df: pd.DataFrame) -> pd.DataFrame:
             f"Portal probably renamed a column - update `required` above."
         )
 
-    # colour/fuel/type aren't always in the source - fill with 'Unknown' so the schema still builds
+    # colour/fuel/type aren't always in the source, fill with 'Unknown' so the schema still builds
     for c in ["colour", "fuel", "type"]:
         if c not in df.columns:
             print(f"  ! note: '{c}' not in source, filling with 'Unknown'")
@@ -69,7 +69,7 @@ def normalise_columns(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# go grab one year's file from data.gov.my
+# grabs one year's file from data.gov.my
 def fetch_year(year: int) -> pd.DataFrame | None:
     """
     Download one year's file into a DataFrame.
@@ -106,7 +106,7 @@ def fetch_year(year: int) -> pd.DataFrame | None:
     return None
 
 
-# loop through every year - use the cached file if I already have it, otherwise download it - then combine into one table
+# loop through every year, use the cached file if I already have it, otherwise download it, then combine into one table
 def extract(years) -> pd.DataFrame:
     CACHE_DIR.mkdir(exist_ok=True)
     frames = []
@@ -135,7 +135,7 @@ def extract(years) -> pd.DataFrame:
     return pd.concat(frames, ignore_index=True)
 
 
-# ---- transform ----
+# transform
 
 # fix up messy dates and text (title case, extra spaces, inconsistent spelling) before anything else touches the data
 def clean(df: pd.DataFrame) -> pd.DataFrame:
@@ -145,7 +145,7 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     df["date_reg"] = pd.to_datetime(df["date_reg"], errors="coerce")
     df = df.dropna(subset=["date_reg"])
 
-    # maker/model come in upper-case, colour is lower-case - just title-case everything
+    # maker/model come in upper-case, colour is lower-case, just title-case everything
     for col in ["maker", "model", "colour", "fuel", "state", "type"]:
         if col in df.columns:
             df[col] = (
@@ -162,7 +162,7 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-# build the calendar lookup table - every single date, not just the ones with data
+# build the calendar lookup table, every single date, not just the ones with data
 def build_dim_date(df: pd.DataFrame) -> pd.DataFrame:
     """Need every calendar date here (not just ones with registrations) for DAX time intelligence to work right."""
     lo, hi = df["date_reg"].min(), df["date_reg"].max()
@@ -198,7 +198,7 @@ def build_dim(df: pd.DataFrame, cols, key_name: str) -> pd.DataFrame:
     return dim
 
 
-# take the cleaned data and rebuild it into the star schema - the small lookup tables plus the big counts table
+# take the cleaned data and rebuild it into the star schema, the small lookup tables plus the big counts table
 def transform(df: pd.DataFrame):
     print("\nBuilding dimensions...")
 
@@ -224,7 +224,7 @@ def transform(df: pd.DataFrame):
 
     keys = ["date_key", "model_key", "state_key", "colour_key", "fuel_key"]
 
-    # check before the groupby, not after - it silently drops NaN-key rows,
+    # check before the groupby, not after,  it silently drops NaN-key rows,
     # so checking after would hide the problem instead of catching it
     orphans = fact[keys].isna().sum()
     if orphans.sum():
@@ -268,7 +268,7 @@ def transform(df: pd.DataFrame):
     }
 
 
-# ---- load ----
+# load
 
 # connect to MySQL, write all the tables in, then set up indexes so it's fast to query
 def load(tables: dict):
