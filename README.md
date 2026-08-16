@@ -17,11 +17,11 @@ A Power BI dashboard that looks at Malaysian vehicle registration data (2019–2
 
 ## Screenshots
 
-**Page 1 \- Malaysia Overview** \!\[Malaysia Overview page\](docs/screenshots/page1-overview.png)
+**Page 1 \- Malaysia Overview** ![Malaysia Overview page](docs/screenshots/page1-overview.png)
 
-**Page 2 \- Perodua Focus** \!\[Perodua Focus page\](docs/screenshots/page2-perodua-focus.png)
+**Page 2 \- Perodua Focus** ![Perodua Focus page](docs/screenshots/page2-perodua-focus.png)
 
-**Page 3 \- Model Detail** \!\[Model Detail page\](docs/screenshots/page3-model-detail.png)
+**Page 3 \- Model Detail** ![Model Detail page](docs/screenshots/page3-model-detail.png)
 
 ## Data Source
 
