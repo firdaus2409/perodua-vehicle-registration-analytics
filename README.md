@@ -12,8 +12,7 @@ A Power BI dashboard that looks at Malaysian vehicle registration data (2019–2
 ## Live Demo
 
 - **Dashboard (Publish to Web):** [https://app.powerbi.com/view?r=eyJrIjoiZTI0OTllMDctZTJlZC00ZGIyLTllYWEtNmJlNmNmYTY0MWIyIiwidCI6IjgxZGFhMTE0LWZkYWUtNDRkOS05OGJhLTExMmU1ZjhjOGIwZCJ9](https://app.powerbi.com/view?r=eyJrIjoiZTI0OTllMDctZTJlZC00ZGIyLTllYWEtNmJlNmNmYTY0MWIyIiwidCI6IjgxZGFhMTE0LWZkYWUtNDRkOS05OGJhLTExMmU1ZjhjOGIwZCJ9)  
-- **Video walkthrough:**  
-- **Repo:**
+- **Video walkthrough:** [https://youtu.be/yVO4TfABjHI](https://youtu.be/yVO4TfABjHI)
 
 ## Screenshots
 
